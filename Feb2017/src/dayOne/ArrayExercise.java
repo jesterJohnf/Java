@@ -8,7 +8,7 @@ public class ArrayExercise {
         int[] test = {1,2,3,4,5,6};
         int[] test2 = {1,2,3};
 
-        System.out.println(sameFirstLast(test));
+        /*System.out.println(commonEnd(test));*/
     }
 
     static boolean firstLast6(int[] nums) {
@@ -21,6 +21,6 @@ public class ArrayExercise {
     }
 
     static boolean commonEnd(int[] nums, int[] nums2) {
-        return (nums[0] == nums2 (0)) ||
+        return (nums[0] == nums2 [0]) || (nums[nums.length-1] == nums2[nums2.length-1]);
     }
 }
