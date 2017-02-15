@@ -7,20 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static dayTwo.models.GeneratedEmployees.employees;
+
 /**
  * Created by student on 14/02/2017.
  */
 public class CommandInterface {
     static Scanner input = new Scanner(System.in);
-    static boolean edit = false;
+    static boolean edit = false; //setting a flag for choice 3
 
     public static void display() {
 
         // temp int data to store user's choice
         int choice;
-        boolean keep_running = true;
+        boolean keep_running = true; //infinite loop in case user enters anything other than 1-6
 
-        // give user 6 options
+        // give 6 options
         while(keep_running) {
             do {
                 // choices
@@ -46,6 +48,19 @@ public class CommandInterface {
                     break;
                 case 3:
                     edit = true;
+                    System.out.println("Enter search by first name: ");
+                    input.nextLine();
+                    System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    System.out.print("Enter index to edit");
+                    int index = input.nextInt();
+                    System.out.println(TaskProcessing.editEmployee(index, inputDetails(employees.get(index))));
+                    break;
+                case 4:
+                    System.out.print("Enter first name to search: ");
+                    input.nextLine();
+                    System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    System.out.print("Enter index to remove");
+                    System.out.println(TaskProcessing.removeEmployee(input.nextInt()));
                     break;
                 case 5:
                     System.out.print("Enter first name to search: ");

@@ -11,6 +11,7 @@ public class Employee extends Person{
     private LocalDate hireDate;
     private String jobRole;
 
+    //getters and setters
     public LocalDate getHireDate() {
         return hireDate;
     }
@@ -29,12 +30,13 @@ public class Employee extends Person{
 
     //constructor
     public Employee(int id, String fn, String ln, LocalDate dob, LocalDate hireDate, String jobRole) {
-        super(id,fn,ln,dob);
+        super(id,fn,ln,dob); // calls the person class constructor to create an employee
         this.hireDate = hireDate;
         this.jobRole = jobRole;
 
     }
 
+    // to print output on cmd line
     @Override
     public String toString() {
         return "Employee{" + super.toString() +
