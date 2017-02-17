@@ -17,6 +17,9 @@ public class ProgrammeMain {
         // Create temp employees collection
         GeneratedEmployees.createEmployees();
 
+        TaskProcessing.setUpDb();
+
+
         CommandInterface.display();
 
 

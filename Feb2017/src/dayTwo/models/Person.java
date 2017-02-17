@@ -40,7 +40,7 @@ public class Person {
     }
 
     // constructors (new...)
-    public Person() {}
+
 
     // overloaded constructor
     public Person(int id, String fn, String ln, LocalDate dob) {

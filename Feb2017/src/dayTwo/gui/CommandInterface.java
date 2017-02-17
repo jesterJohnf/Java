@@ -3,6 +3,7 @@ package dayTwo.gui;
 import dayTwo.models.Employee;
 import dayTwo.processor.TaskProcessing;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,7 +42,11 @@ public class CommandInterface {
             // switch
             switch(choice) {
                 case 1:
-                    TaskProcessing.listAllEmployees();
+                    try {
+                        TaskProcessing.listAllEmployees();
+                    } catch (SQLException ex1) {
+                        System.out.println("Cannot query any record: " + ex1);
+                    }
                     break;
                 case 2:
                     System.out.println(TaskProcessing.createNew(inputDetails(null)));
@@ -50,22 +55,33 @@ public class CommandInterface {
                     edit = true;
                     System.out.println("Enter search by first name: ");
                     input.nextLine();
-                    System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
-                    System.out.print("Enter index to edit");
+                    try {
+                        System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    } catch (SQLException ex2) {
+                        System.out.print("Error search: " + ex2);
+                    }
                     int index = input.nextInt();
                     System.out.println(TaskProcessing.editEmployee(index, inputDetails(employees.get(index))));
                     break;
                 case 4:
                     System.out.print("Enter first name to search: ");
                     input.nextLine();
-                    System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    try {
+                        System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    } catch (SQLException ex3) {
+                        System.out.print("Error search: " + ex3);
+                    }
                     System.out.print("Enter index to remove");
                     System.out.println(TaskProcessing.removeEmployee(input.nextInt()));
                     break;
                 case 5:
                     System.out.print("Enter first name to search: ");
                     input.nextLine();
-                    System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    try {
+                        System.out.println(TaskProcessing.searchByFirstName(input.nextLine()));
+                    } catch (SQLException ex4) {
+                        System.out.print("Enter index to edit");
+                    }
                     break;
                 case 6:
                     keep_running = false;
@@ -81,9 +97,10 @@ public class CommandInterface {
         List<String> tempEmployee = new ArrayList<>();
         input.nextLine();
 
-        System.out.print("ID: " + (edit ? e.getId() + "\nChange: " : "")); // : what comes after if the condition is false
-        tempEmployee.add(input.nextLine());
+        /*System.out.print("ID: " + (edit ? e.getId() + "\nChange: " : "")); // : what comes after if the condition is false
+        tempEmployee.add(input.nextLine());*/
 
+        tempEmployee.add("");
         System.out.print("First Name: " + (edit ? e.getFirstName() + "\nChange: " : ""));
         tempEmployee.add(input.nextLine());
 

@@ -1,7 +1,10 @@
 package dayTwo.processor;
 
+import dayTwo.database.ConnectDb;
+import dayTwo.database.OperateDb;
 import dayTwo.models.Employee;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,8 +13,28 @@ import static dayTwo.models.GeneratedEmployees.employees;
 /**
  * Created by student on 14/02/2017.
  */
+
 public class TaskProcessing {
-    public static void listAllEmployees() {
+    private static OperateDb db;
+
+    public static void setUpDb() {
+        try {
+        ConnectDb connectDb = new ConnectDb(); //connection object
+
+         //object to manipulate database based on the connection
+         db = new OperateDb(connectDb.getCon());
+         //db.createEmployeeTable();
+    } catch (Exception e) {
+            System.out.println("Error connecting to Database");
+        }
+}
+
+
+
+
+    public static void listAllEmployees() throws SQLException{
+        employees.clear();
+        employees = db.queryAll();
         for (Employee e : employees) {
             System.out.println(e);
         }
@@ -25,7 +48,7 @@ public class TaskProcessing {
             String[] hd = data.get(4).split("/");
 
             Employee temp = new Employee(
-                    Integer.parseInt(data.get(0)),
+                    0,
                     data.get(1),
                     data.get(2),
                     LocalDate.of(Integer.parseInt(dob[0]), //year
@@ -37,7 +60,7 @@ public class TaskProcessing {
                     data.get(5)
             );
 
-            employees.add(temp);
+            db.addEmployee(temp);
             return "SUCCESSFULLY created: " + temp.getFirstName();
         } catch (Exception e) {
             return "FAILURE caused by: " + e;
@@ -45,8 +68,20 @@ public class TaskProcessing {
     }
 
     // searchByFirstName method
-    public static String searchByFirstName(String fn) {
+    public static String searchByFirstName(String fn) throws SQLException{
+        employees.clear();
+        employees = db.queryByFirstName(fn);
+
         String result = "";
+        for(int i = 0; i < employees.size(); i++)
+            result += String.format("[%s] %s", i, employees.get(i).toString()) + "\n";
+
+        if(result != "")
+            return result;
+
+        return " EMPLOYEE NOT FOUND!";
+
+        /*String result = "";
         for(int i = 0; i < employees.size(); i++) {
             //compare
             if(employees.get(i).getFirstName().equalsIgnoreCase(fn)) //this method uses a string comparison method from java library (equalsIgnoreCase)
@@ -54,9 +89,7 @@ public class TaskProcessing {
                 result += String.format("[%s] %s", i, employees.get(i).toString()) + "\n"; //result for getFirstName modified so that when removeEmployee method called employees are shown by index
         }
         if(result != "")
-            return result;
-
-        return " EMPLOYEE NOT FOUND!";
+            return result;*/
     }
 
     //removeEmployee method
